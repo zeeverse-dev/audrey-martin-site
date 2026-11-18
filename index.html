@@ -413,29 +413,26 @@ nav.scrolled{background:rgba(250,244,238,.55)!important;backdrop-filter:blur(20p
 <footer>© Audrey Martin · Beauty Around the World</footer>
 
 <script>
-const V1='https://zain-graphic-designer-portfolio.my.canva.site/audrey-martin-travel/_assets/video/';
-const V2='https://taiamond.my.canva.site/audrey-martin/_assets/video/';
 const IG='https://www.instagram.com/reel/';
 const DATA={
-  /* each video matched to its own reel (checked frame by frame) */
   travel:[
     ['videos/E tu Li pagherestiOrmai sono a 50+ paesi visitati, di cui 37 sono negli ultimi 3 anni e 28 di qu.mp4','DXO7raOk2BG'],  /* 50+ countries */
-    [V1+'db20a10dbeca5c884150bc24d67d2fa7.mp4','DF2e6G6t1jP'],  /* Laos */
-    [V1+'3bb727e0392aadbad9e8869a9351e631.mp4','DLCikXMt6kP']   /* Sri Lanka */
+    ['videos/Uno dei paesi più belli in cui son stata fin’ora 🤍🇱🇦.mp4','DF2e6G6t1jP'],  /* Laos */
+    ['videos/E tu ci andresti O ci sei mai stato Tra paesaggi bellissimi, strade caotiche, animali ogni qual .mp4','DLCikXMt6kP']
   ],
   fitness:[
-    [V1+'ceea471cadd3a4139aabb0d62f69698a.mp4','DfVGRcMs4Ml'],  /* booty workout */
-    [V1+'3a0e1cf996b168b35e3bc5b973e8dc88.mp4','DdRNDQZot0e'],  /* leg day Tokyo */
-    [V1+'b556b454e37e1004e80a503ee868bc32.mp4','DWWLph8kzi0']   /* gym in Japan */
+    ['videos/UPDATE 😌 A month ago I started working out again, after taking several months off because of my.mp4','DfVGRcMs4Ml'],
+    ['videos/Il primo leg day dopo 1 mese ferma post-operazione.Non mi fermavo così a lungo da anni, infatti .mp4','DdRNDQZot0e'],
+    ['videos/E tutto per 25€ al mese 😀@anytimefitness_japan we love you. #tokyo #japan #giappone #gym #gymgi.mp4','DWWLph8kzi0']
   ],
   world:[
-    [V1+'8e1fd51a286a6a3693a86099097e0015.mp4','DaqA7v5o32J'],
-    [V1+'3e10f435656ad86059dc7228d37dd6e1.mp4','DKouDhTPR8r'],
-    [V1+'406e47feef1c9842665b803a5c0f92de.mp4','DK17yK1NrRd']
+    ['videos/E tu, quanto l’avresti pagata Fammi sapere se vuoi vedere il house tour della casa “ufficiale”#h.mp4','DaqA7v5o32J'],
+    ['videos/Mi sa che smetterò di versare 1 litro d’olio nell’ insalata ☺️#svuotaspesa #groceryhaul #grocery.mp4','DKouDhTPR8r'],
+    ['videos/Siate gentili🤍.mp4','DK17yK1NrRd']
   ]
 };
 document.querySelectorAll('[data-set]').forEach(box=>{
-  DATA[box.dataset.set].forEach(([src,id,fb],i)=>{
+  DATA[box.dataset.set].forEach(([src,id],i)=>{
     const a=document.createElement('a');
     a.className='reel tilt rv'+(i%5?' d'+Math.min(i%5,4):'');
     a.href=IG+id+'/';a.target='_blank';a.rel='noopener';
@@ -446,7 +443,7 @@ document.querySelectorAll('[data-set]').forEach(box=>{
        <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
     const v=a.querySelector('video');
     v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
-    v.addEventListener('error',()=>{if(fb&&v.src!==fb){v.src=fb;tryPlay(v);}else a.classList.add('novid');});
+    v.addEventListener('error',()=>a.classList.add('novid'));
     v.addEventListener('playing',()=>a.classList.add('live'));
     box.appendChild(a);
   });
