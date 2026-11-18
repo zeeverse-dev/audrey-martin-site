@@ -457,13 +457,14 @@ document.querySelectorAll('[data-set]').forEach(box=>{
     card.className='reel tilt rv'+(i%5?' d'+Math.min(i%5,4):'');
     card.href=IG+id+'/';card.target='_blank';card.rel='noopener';
     card.innerHTML=`<div class="ph"><span>▶</span><small>Watch on Instagram</small></div>
-      <video muted loop playsinline autoplay preload="auto" src="${src}"></video>
+      <video muted loop playsinline autoplay preload="auto"></video>
       <div class="shine"></div>
       <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
     const v=card.querySelector('video');
     v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
     v.addEventListener('error',()=>card.classList.add('novid'));
     v.addEventListener('playing',()=>card.classList.add('live'));
+    v.src=new URL(src.split('/').map(encodeURIComponent).join('/'),document.baseURI).href;
     box.appendChild(card);
   });
 });
