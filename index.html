@@ -119,11 +119,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between}
 .port-sec .count{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .reels.five{grid-template-columns:repeat(5,1fr);gap:16px}
-.reels.embed-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .reel{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:var(--sand);box-shadow:0 20px 40px -24px rgba(59,42,36,.5);transition:transform .5s,box-shadow .5s}
 .reel video{width:100%;height:100%;object-fit:cover;transition:transform 1s}
-.reel.instagram-embed::after{pointer-events:none}
-.reel.instagram-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
 .reel::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(30,20,16,.75));opacity:.8;transition:opacity .4s}
 .reel .cta{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;color:#fff;display:flex;align-items:center;justify-content:space-between;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
 .reel .cta i{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);display:grid;place-items:center;font-style:normal;font-size:1rem;transition:.3s}
@@ -188,7 +185,6 @@ footer{background:var(--ink);color:#cbb8ad;padding:30px 0;font-size:.8rem;text-a
 @media(max-width:600px){
   section{padding:80px 0}
   .reels,.reels.five{grid-template-columns:repeat(2,1fr);gap:12px}
-  .reels.embed-grid{grid-template-columns:1fr}
   .reels-perf{grid-template-columns:1fr}
   .soc-grid,.areas{grid-template-columns:1fr}
   .card,.big-card{padding:26px}
@@ -357,7 +353,7 @@ nav.scrolled{background:rgba(250,244,238,.55)!important;backdrop-filter:blur(20p
 
     <div class="port-sec" id="sec-works">
       <div class="sec-title rv"><h3>Previous <em>Collaborations / Works</em></h3><span class="count">10 Reels</span></div>
-      <div class="reels embed-grid" data-set="works"></div>
+      <div class="reels five" data-set="works"></div>
     </div>
     <div class="port-sec" id="sec-travel">
       <div class="sec-title rv"><h3>Travel &amp; <em>Discovery</em></h3><span class="count">3 Reels</span></div>
@@ -424,8 +420,16 @@ nav.scrolled{background:rgba(250,244,238,.55)!important;backdrop-filter:blur(20p
 <script>
 const IG='https://www.instagram.com/reel/';
 const WORK_REELS=[
-  'DXTg-26AI_E','DO2aWmniCQe','DKL8iDbNA-t','DHYfC9atz9n','DWWLph8kzi0',
-  'DATAS6svYzd','DK6NcyKNMgb','DZcQ99rs3p9','DJjWPoMP2VF','Dey1P6zstly'
+  ['collaborations works/AQOlvGo7mQHAeFpHi3BRnYYN308OO_8au5BhTy0gDu-xB4gfBO_GXg2u9jlRhptfbvZVDHs6TKfLCTyh9jDeQtMgLgXY-I8oe7tinvY.mp4','DXTg-26AI_E'],
+  ['collaborations works/AQPGN8nwZ9dWuvSpkLQMZXPxHoyBsse117gVxgyG9YfLisGqr7rKK4ktwO8Qrt2IQ7Jb9qKKJ65ieb4SP45MXDp4D4D-fn0GEvSnvJQ.mp4','DO2aWmniCQe'],
+  ['collaborations works/AQPgMPKvje0ZB6CrIIimVa8IVhUOT0YFo8hHj9vpKnb1eX_cVZOY8HnlxcZiwJNLhV160TLtA7Qnblv6Aruqo9HFUnrt08rCJEjViZw.mp4','DKL8iDbNA-t'],
+  ['collaborations works/AQPq5MtdLs1vdezByNOqW_LY_gStOxnbI8QErqQ3As7-AL9-SPtpNcNB2VuHbHksJj-mXBUQWe8FChOS5T5_c1-CtKrp0LBUFwxXHSw.mp4','DHYfC9atz9n'],
+  ['collaborations works/AQPfZ9za-FidrWvdKyi3P0pY5gtw2ibrGw36tpCilQ6Z8e432zb6a_wyorwiNECpHPIPI_XyNAJOekwsKC-KZcs6nhsv2UBqT9SW94c.mp4','DWWLph8kzi0'],
+  ['collaborations works/AQMt15GuirFR6F0TAcifIz4GkzLFM2DZe3TG03vqjamamaP7PoRggvZOnhsw8zuPobK4c4A0JMVtsRqQR6stoC29rHII5uE5cmfQd90.mp4','DATAS6svYzd'],
+  ['collaborations works/AQPVfSisqZQjohMFA84GWd2PSJzs_crW6qaldmNgWKGQ8Oti-oba3ryDtI81Eu5BHr8c3utsC5jugl0CC2d4R0qvR3_E8iaQQnRXiZ8.mp4','DK6NcyKNMgb'],
+  ['collaborations works/AQN8z-GLXb-dCTF7QMmEkpItnoGEFZkgPlJrhzs1qc415N1GvdpML02eWfrWFSmDe0S0aJgumHsRBY1UJ5YufqNp80IEJCKUqZU_rP4.mp4','DZcQ99rs3p9'],
+  ['collaborations works/AQOnCksdYsIuLzjzikzP2BVjLelK9lce-hL68eulXUFp-K51qyZudI0Qzzt-nFVQY_Qw7B9xHw8tAumtWMLxUQSKzrit_k_mfU0SNLA.mp4','DJjWPoMP2VF'],
+  ['collaborations works/AQM3YfKnv7m6MeopZyNS-fGLl-i6GWy_npXQyJX1HMZyjYayCK0HmfWDJFRN8VWMf8qpNzOxoS3QDRgFQyfSNK-35EYORi7AbSVp6Kc.mp4','Dey1P6zstly']
 ];
 const DATA={
   travel:[
@@ -445,27 +449,19 @@ const DATA={
   ]
 };
 document.querySelectorAll('[data-set]').forEach(box=>{
-  const isWork=box.dataset.set==='works';
-  const reels=isWork?WORK_REELS:DATA[box.dataset.set];
-  reels.forEach((item,i)=>{
-    const id=isWork?item:item[1];
-    const card=document.createElement(isWork?'div':'a');
-    card.className='reel tilt rv'+(isWork?' instagram-embed':'')+(i%5?' d'+Math.min(i%5,4):'');
-    if(isWork){
-      card.innerHTML=`<iframe src="${IG}${id}/embed" title="Previous collaboration reel ${i+1}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-        <a class="cta" href="${IG}${id}/" target="_blank" rel="noopener"><span>Open on Instagram</span><i>↗</i></a>`;
-    }else{
-      const src=item[0];
-      card.href=IG+id+'/';card.target='_blank';card.rel='noopener';
-      card.innerHTML=`<div class="ph"><span>▶</span><small>Watch on Instagram</small></div>
-        <video muted loop playsinline autoplay preload="auto" src="${src}"></video>
-        <div class="shine"></div>
-        <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
-      const v=card.querySelector('video');
-      v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
-      v.addEventListener('error',()=>card.classList.add('novid'));
-      v.addEventListener('playing',()=>card.classList.add('live'));
-    }
+  const reels=box.dataset.set==='works'?WORK_REELS:DATA[box.dataset.set];
+  reels.forEach(([src,id],i)=>{
+    const card=document.createElement('a');
+    card.className='reel tilt rv'+(i%5?' d'+Math.min(i%5,4):'');
+    card.href=IG+id+'/';card.target='_blank';card.rel='noopener';
+    card.innerHTML=`<div class="ph"><span>▶</span><small>Watch on Instagram</small></div>
+      <video muted loop playsinline autoplay preload="auto" src="${src}"></video>
+      <div class="shine"></div>
+      <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
+    const v=card.querySelector('video');
+    v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
+    v.addEventListener('error',()=>card.classList.add('novid'));
+    v.addEventListener('playing',()=>card.classList.add('live'));
     box.appendChild(card);
   });
 });
