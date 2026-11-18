@@ -119,8 +119,11 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between}
 .port-sec .count{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .reels.five{grid-template-columns:repeat(5,1fr);gap:16px}
+.reels.embed-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .reel{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:var(--sand);box-shadow:0 20px 40px -24px rgba(59,42,36,.5);transition:transform .5s,box-shadow .5s}
 .reel video{width:100%;height:100%;object-fit:cover;transition:transform 1s}
+.reel.instagram-embed::after{pointer-events:none}
+.reel.instagram-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
 .reel::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(30,20,16,.75));opacity:.8;transition:opacity .4s}
 .reel .cta{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;color:#fff;display:flex;align-items:center;justify-content:space-between;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
 .reel .cta i{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);display:grid;place-items:center;font-style:normal;font-size:1rem;transition:.3s}
@@ -185,6 +188,7 @@ footer{background:var(--ink);color:#cbb8ad;padding:30px 0;font-size:.8rem;text-a
 @media(max-width:600px){
   section{padding:80px 0}
   .reels,.reels.five{grid-template-columns:repeat(2,1fr);gap:12px}
+  .reels.embed-grid{grid-template-columns:1fr}
   .reels-perf{grid-template-columns:1fr}
   .soc-grid,.areas{grid-template-columns:1fr}
   .card,.big-card{padding:26px}
@@ -342,14 +346,19 @@ nav.scrolled{background:rgba(250,244,238,.55)!important;backdrop-filter:blur(20p
     <div class="port-head">
       <div class="eyebrow rv">My Portfolio</div>
       <h2 class="rv d1">My Video <em>Portfolio</em></h2>
-      <p class="rv d2" style="max-width:560px;margin:0 auto;color:#5a463d">Explore nine reels across travel, fitness and wellness, and everyday life.</p>
+      <p class="rv d2" style="max-width:560px;margin:0 auto;color:#5a463d">Explore previous collaborations and reels across travel, fitness and wellness, and everyday life.</p>
     </div>
     <div class="tabs rv d2">
-      <button class="tab active" data-go="sec-travel">Travel &amp; Discovery</button>
+      <button class="tab active" data-go="sec-works">Previous Collaborations</button>
+      <button class="tab" data-go="sec-travel">Travel &amp; Discovery</button>
       <button class="tab" data-go="sec-fitness">Fitness &amp; Wellness</button>
       <button class="tab" data-go="sec-world">My World</button>
     </div>
 
+    <div class="port-sec" id="sec-works">
+      <div class="sec-title rv"><h3>Previous <em>Collaborations / Works</em></h3><span class="count">10 Reels</span></div>
+      <div class="reels embed-grid" data-set="works"></div>
+    </div>
     <div class="port-sec" id="sec-travel">
       <div class="sec-title rv"><h3>Travel &amp; <em>Discovery</em></h3><span class="count">3 Reels</span></div>
       <div class="reels" data-set="travel"></div>
@@ -414,6 +423,10 @@ nav.scrolled{background:rgba(250,244,238,.55)!important;backdrop-filter:blur(20p
 
 <script>
 const IG='https://www.instagram.com/reel/';
+const WORK_REELS=[
+  'DXTg-26AI_E','DO2aWmniCQe','DKL8iDbNA-t','DHYfC9atz9n','DWWLph8kzi0',
+  'DATAS6svYzd','DK6NcyKNMgb','DZcQ99rs3p9','DJjWPoMP2VF','Dey1P6zstly'
+];
 const DATA={
   travel:[
     ['videos/E tu Li pagherestiOrmai sono a 50+ paesi visitati, di cui 37 sono negli ultimi 3 anni e 28 di qu.mp4','DXO7raOk2BG'],  /* 50+ countries */
@@ -432,20 +445,28 @@ const DATA={
   ]
 };
 document.querySelectorAll('[data-set]').forEach(box=>{
-  DATA[box.dataset.set].forEach(([src,id],i)=>{
-    const a=document.createElement('a');
-    a.className='reel tilt rv'+(i%5?' d'+Math.min(i%5,4):'');
-    a.href=IG+id+'/';a.target='_blank';a.rel='noopener';
-    a.innerHTML=(box.dataset.set==='works'?`<span class="num">${String(i+1).padStart(2,'0')}</span>`:'')+
-      `<div class="ph"><span>▶</span><small>Watch on Instagram</small></div>
-       <video muted loop playsinline autoplay preload="auto" src="${src}"></video>
-       <div class="shine"></div>
-       <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
-    const v=a.querySelector('video');
-    v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
-    v.addEventListener('error',()=>a.classList.add('novid'));
-    v.addEventListener('playing',()=>a.classList.add('live'));
-    box.appendChild(a);
+  const isWork=box.dataset.set==='works';
+  const reels=isWork?WORK_REELS:DATA[box.dataset.set];
+  reels.forEach((item,i)=>{
+    const id=isWork?item:item[1];
+    const card=document.createElement(isWork?'div':'a');
+    card.className='reel tilt rv'+(isWork?' instagram-embed':'')+(i%5?' d'+Math.min(i%5,4):'');
+    if(isWork){
+      card.innerHTML=`<iframe src="${IG}${id}/embed" title="Previous collaboration reel ${i+1}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+        <a class="cta" href="${IG}${id}/" target="_blank" rel="noopener"><span>Open on Instagram</span><i>↗</i></a>`;
+    }else{
+      const src=item[0];
+      card.href=IG+id+'/';card.target='_blank';card.rel='noopener';
+      card.innerHTML=`<div class="ph"><span>▶</span><small>Watch on Instagram</small></div>
+        <video muted loop playsinline autoplay preload="auto" src="${src}"></video>
+        <div class="shine"></div>
+        <div class="cta"><span>Watch Reel</span><i>↗</i></div>`;
+      const v=card.querySelector('video');
+      v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');
+      v.addEventListener('error',()=>card.classList.add('novid'));
+      v.addEventListener('playing',()=>card.classList.add('live'));
+    }
+    box.appendChild(card);
   });
 });
 
